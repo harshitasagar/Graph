@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  private:
+    void dfs(int node, vector<int> adj[], int vis[]){
+      vis[node] = 1;
+      for(auto it : adj[node]){
+        if(!vis[it]){
+          dfs(it, adj, vis);
+        }
+      }
+    }
+  public:
+    int numProvinces(vector<vector<int>> adj, int V){
+      vector<int> adjls[V];
+      int cnt = 0;
+      //creating a adjls for traversal of unconnected components;
+      for(int i = 0; i < V; i++){
+        for(int j = 0; j < V; j++){
+          if(adj[i][j] == 1){
+            adjls[i].push_back(j);
+            adjls[j].push_back(i);
+          }
+        }
+      }
+
+    //creating a visited array 
+    int vis[V] = {0};
+    for(int i = 0; i < V; i++){ 
+       
+        if(!vis[i]){
+           cnt++;
+           dfs(i, adjls, vis);
+        }
+    
+    }
+    return cnt;
+  }
+};
+
+int main(){
+  vector<vector<int>> adj 
+  {
+    {1,0,1},
+    {0,1,0},
+    {1,0,1}
+  };
+
+  Solution obj;
+  cout << obj.numProvinces(adj, 3) << endl;
+
+  return 0;
+}
